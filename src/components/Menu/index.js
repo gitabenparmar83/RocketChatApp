@@ -1,5 +1,5 @@
-import { Component, h } from 'preact';
 
+import React, { Component } from 'react';
 import { createClassName, normalizeDOMRect } from '../helpers';
 import { PopoverTrigger } from '../Popover';
 import styles from './styles.scss';
@@ -28,7 +28,7 @@ export const Item = ({ children, primary, danger, disabled, icon, ...props }) =>
 	>
 		{icon && (
 			<div className={createClassName(styles, 'menu__item__icon')}>
-				{h(icon)}
+				{React.createElement(icon)}
 			</div>
 		)}
 		{children}
