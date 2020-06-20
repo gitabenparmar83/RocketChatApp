@@ -1,3 +1,3 @@
 import './styles/index.scss';
 
-export { default } from './components/App';
+export { default } from '../components/App';

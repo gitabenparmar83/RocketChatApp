@@ -2,8 +2,8 @@ import { storiesOf } from '@storybook/react';
 import centered from '@storybook/addon-centered/react';
 import { withKnobs, object } from '@storybook/addon-knobs';
 
-import { Button } from '../Button';
-import { PopoverContainer, PopoverTrigger } from '.';
+import { Button } from '../../../components/Button';
+import { PopoverContainer, PopoverTrigger } from './index';
 
 
 const centeredWithPopoverContainer = (storyFn, ...args) => (

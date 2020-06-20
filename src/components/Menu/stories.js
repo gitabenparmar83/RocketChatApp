@@ -3,13 +3,13 @@ import { action } from '@storybook/addon-actions';
 import centered from '@storybook/addon-centered/react';
 import { withKnobs, boolean, text, select } from '@storybook/addon-knobs';
 
-import { Button } from '../Button';
+import { Button } from '../../../components/Button';
 import { PopoverContainer } from '../Popover';
-import Menu, { Group, Item, PopoverMenu } from '.';
-import BellIcon from '../../icons/bell.svg';
-import CloseIcon from '../../icons/close.svg';
-import FinishIcon from '../../icons/finish.svg';
-import ChangeIcon from '../../icons/change.svg';
+import Menu, { Group, Item, PopoverMenu } from './index';
+import BellIcon from '../../../icons/bell.svg';
+import CloseIcon from '../../../icons/close.svg';
+import FinishIcon from '../../../icons/finish.svg';
+import ChangeIcon from '../../../icons/change.svg';
 
 
 const defaultMenuItemText = 'A menu item';

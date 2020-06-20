@@ -1,7 +1,7 @@
 import { Link } from 'preact-router/match';
 import { shallow } from 'preact-render-spy';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
 
 describe('Initial Test of the Header', () => {
 	test('Header renders 3 nav items', () => {

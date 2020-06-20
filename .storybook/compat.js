@@ -1,4 +1,4 @@
-export { default as default }  from 'preact-compat';
-export * from 'preact-compat';
-export { createContext } from 'preact-context';
+export { default as default }  from 'react';
+export * from 'react';
+export { createContext } from 'react';
 export { forwardRef, createRef } from 'create-react-ref';

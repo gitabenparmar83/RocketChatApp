@@ -3,10 +3,10 @@ import centered from '@storybook/addon-centered/react';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import SmileIcon from '../../icons/smile.svg';
-import PlusIcon from '../../icons/plus.svg';
-import SendIcon from '../../icons/send.svg';
-import { Composer, ComposerActions, ComposerAction } from '.';
+import SmileIcon from '../../../icons/smile.svg';
+import PlusIcon from '../../../icons/plus.svg';
+import SendIcon from '../../../icons/send.svg';
+import { Composer, ComposerActions, ComposerAction } from './index';
 
 
 const centeredWithWidth = (storyFn, ...args) => centered(() => (

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { createClassName, normalizeDOMRect } from '../helpers';
+import { createClassName, normalizeDOMRect } from '../../../components/helpers';
 import { PopoverTrigger } from '../Popover';
 import styles from './styles.scss';
 

@@ -1,4 +1,4 @@
-import { createClassName, memo } from '../../helpers';
+import { createClassName, memo } from '../../../../components/helpers';
 import styles from './styles.scss';
 
 

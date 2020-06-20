@@ -2,7 +2,7 @@ import { route } from 'preact-router';
 
 import { Livechat } from '../api';
 import { store } from '../store';
-import { setCookies, upsert, canRenderMessage } from '../components/helpers';
+import { setCookies, upsert, canRenderMessage } from '../../components/helpers';
 import Commands from './commands';
 import { loadConfig, processUnread } from './main';
 import { parentCall } from './parentCall';

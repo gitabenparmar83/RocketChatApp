@@ -1,51 +1,55 @@
-const { ProvidePlugin } = require('webpack');
-const webpackOverride = require('../webpackOverride.config');
+const path = require('path')
+const fs = require('fs')
+const webpack = require('webpack');
 
+const appDirectory = fs.realpathSync(process.cwd())
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
 
-module.exports = ({ config, mode }) => {
-	delete config.resolve.alias['core-js'];
-	config = webpackOverride(config, mode);
-
-	config.resolve.alias = Object.assign(
-		config.resolve.alias,
+module.exports = async ({ config }) => {
+	config.module.rules.push({
+			test: /\.(s?css|sass)$/,
+			use: [
+				{
+					loader: 'style-loader',
+				},
+				{
+					loader: 'css-loader',
+					options: {
+						sourceMap: true,
+						modules: true,
+						localIdentName: '[local]___[hash:base64:5]',
+					},
+				},
+				{
+					loader: 'sass-loader',
+					options: {
+						sourceMap: true,
+					},
+				},
+			],
+		},
 		{
-			'react': `${ __dirname }/compat.js`,
-			'react-dom': `${ __dirname }/compat.js`,
+			test: /\.(js|jsx|mjs)$/,
+			include: resolveApp('../src'),
+			loader: 'babel-loader',
+			options: {
+				plugins: [['import', { libraryName: 'material', style: true }]],
+				cacheDirectory: true
+			}
+		},
+		{
+			test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+			loader: 'url-loader',
+			options: {
+				limit: 10000,
+				name: 'static/media/[name].[hash:8].[ext]'
+			}
 		}
 	);
-
-	config.module.rules = config.module.rules.filter(({ loader }) => !/json-loader/.test(loader));
-
-	config.module.rules.push({
-		test: /\.(s?css|sass)$/,
-		use: [
-			{
-				loader: 'style-loader',
-			},
-			{
-				loader: 'css-loader',
-				options: {
-					sourceMap: true,
-					modules: true,
-					localIdentName: '[local]___[hash:base64:5]',
-				},
-			},
-			{
-				loader: 'sass-loader',
-				options: {
-					sourceMap: true,
-				},
-			},
-		],
-	});
-
 	config.plugins.push(
-		new ProvidePlugin({
-			h: ['preact', 'h'],
-			Component: ['preact', 'Component'],
-			React: ['preact-compat'],
-		})
+		new webpack.ProvidePlugin({
+			React: 'react',
+		}),
 	);
-
-	return config;
-};
+	return config
+}

@@ -1,6 +1,6 @@
 import React, { Component, createContext } from 'react';
 
-import { createClassName, normalizeDOMRect } from '../helpers';
+import { createClassName, normalizeDOMRect } from '../../../components/helpers';
 import styles from './styles.scss';
 
 

@@ -4,8 +4,8 @@ import { parseISO } from 'date-fns/fp';
 import { Livechat } from '../api';
 import store from '../store';
 import constants from './constants';
-import { canRenderMessage } from '../components/helpers';
-
+import { canRenderMessage } from '../../components/helpers';
+import I18n from '../../src/i18n/index'
 export const loadConfig = async () => {
 	const {
 		token,
@@ -25,7 +25,7 @@ export const loadConfig = async () => {
 	await store.setState({
 		config,
 		agent: agent && agent.hiddenInfo ? { hiddenInfo: true } : agent, // TODO: revert it when the API is updated
-		room,
+		room,.stories.js
 		user,
 		queueInfo,
 		sound: { src, enabled: true, play: false },

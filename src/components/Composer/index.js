@@ -1,7 +1,7 @@
 import mem from 'mem';
 import React, { Component } from 'react';
 
-import { createClassName } from '../helpers';
+import { createClassName } from '../../../components/helpers';
 import styles from './styles.scss';
 
 

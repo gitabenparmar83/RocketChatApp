@@ -3,7 +3,7 @@ import CustomFields from './customFields';
 import { store } from '../store';
 import { setWidgetLanguage } from './locale';
 import { Livechat } from '../api';
-import { createToken } from '../components/helpers';
+import { createToken } from '../../components/helpers';
 import { loadConfig } from './main';
 import { parentCall } from './parentCall';
 
