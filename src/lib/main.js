@@ -25,7 +25,7 @@ export const loadConfig = async () => {
 	await store.setState({
 		config,
 		agent: agent && agent.hiddenInfo ? { hiddenInfo: true } : agent, // TODO: revert it when the API is updated
-		room,.stories.js
+		room,
 		user,
 		queueInfo,
 		sound: { src, enabled: true, play: false },
