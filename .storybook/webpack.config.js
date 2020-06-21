@@ -6,6 +6,9 @@ const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
 
 module.exports = async ({ config }) => {
+	const fileLoaderRule = config.module.rules.find(rule => rule.test && rule.test.test('.svg'));
+	fileLoaderRule.exclude = /\.svg$/;
+
 	config.module.rules.push({
 			test: /\.(s?css|sass)$/,
 			use: [
@@ -38,12 +41,17 @@ module.exports = async ({ config }) => {
 			}
 		},
 		{
-			test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/,/\.svg$/],
+			test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
 			loader: 'url-loader',
 			options: {
 				limit: 10000,
 				name: 'static/media/[name].[hash:8].[ext]'
 			}
+		},
+		{
+			test: /\.svg$/,
+			enforce: 'pre',
+			loader: require.resolve('@svgr/webpack'),
 		}
 	);
 	config.plugins.push(
