@@ -5,35 +5,48 @@ import { PopoverTrigger } from '../Popover';
 import styles from './styles.scss';
 
 
-export const Menu = ({ children, hidden, placement, ...props }) => (
-	<div className={createClassName(styles, 'menu', { hidden, placement })} {...props}>
-		{children}
-	</div>
-);
+export const Menu = (props) => {
+	const { children, hidden, placement } = props;
+	return (
+		<div className={createClassName(styles, 'menu', { hidden, placement })} {...props}>
+			{children}
+		</div>
+	);
+};
 
 
-export const Group = ({ children, title, ...props }) => (
-	<div className={createClassName(styles, 'menu__group')} {...props}>
-		{title && <div className={createClassName(styles, 'menu__group-title')}>{title}</div>}
-		{children}
-	</div>
-);
+export const Group = (props) => {
+	const { children, title } = props;
+	return (
+		<div className={ createClassName(styles, 'menu__group') } { ...props }>
+			{ title && <div className={ createClassName(styles, 'menu__group-title') }>{ title }</div> }
+			{ children }
+		</div>
+	);
+};
 
 
-export const Item = ({ children, primary, danger, disabled, icon, ...props }) => (
-	<button
-		className={createClassName(styles, 'menu__item', { primary, danger, disabled })}
-		disabled={disabled}
-		{...props}
-	>
-		{icon && (
-			<div className={createClassName(styles, 'menu__item__icon')}>
-				{React.createElement(icon)}
-			</div>
-		)}
-		{children}
-	</button>
-);
+export const Item = (props) => {
+	const { children, primary, danger, disabled, icon } = props;
+	return (
+		<button
+			className={ createClassName(styles, 'menu__item', {
+				primary,
+				danger,
+				disabled
+			}) }
+			disabled={ disabled }
+			{ ...props }
+		>
+			{ icon && (
+				<div className={ createClassName(styles, 'menu__item__icon') }>
+					{ React.createElement(icon) }
+				</div>
+			) }
+			{ children }
+		</button>
+	);
+};
 
 
 class PopoverMenuWrapper extends Component {
@@ -90,24 +103,27 @@ class PopoverMenuWrapper extends Component {
 }
 
 
-export const PopoverMenu = ({ children, trigger, overlayed }) => (
-	<PopoverTrigger
-		overlayProps={{
-			className: overlayed ? createClassName(styles, 'popover-menu__overlay') : null,
-		}}
-	>
-		{trigger}
-		{({ dismiss, triggerBounds, overlayBounds }) => (
-			<PopoverMenuWrapper
-				dismiss={dismiss}
-				triggerBounds={triggerBounds}
-				overlayBounds={overlayBounds}
-			>
-				{children}
-			</PopoverMenuWrapper>
-		)}
-	</PopoverTrigger>
-);
+export const PopoverMenu = (props) => {
+	const { children, trigger, overlayed } = props;
+	return (
+		<PopoverTrigger
+			overlayProps={ {
+				className: overlayed ? createClassName(styles, 'popover-menu__overlay') : null,
+			} }
+		>
+			{ trigger }
+			{ ({ dismiss, triggerBounds, overlayBounds }) => (
+				<PopoverMenuWrapper
+					dismiss={ dismiss }
+					triggerBounds={ triggerBounds }
+					overlayBounds={ overlayBounds }
+				>
+					{ children }
+				</PopoverMenuWrapper>
+			) }
+		</PopoverTrigger>
+	)
+};
 
 
 Menu.Group = Group;

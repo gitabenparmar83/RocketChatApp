@@ -38,7 +38,7 @@ module.exports = async ({ config }) => {
 			}
 		},
 		{
-			test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+			test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/,/\.svg$/],
 			loader: 'url-loader',
 			options: {
 				limit: 10000,

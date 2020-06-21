@@ -172,8 +172,9 @@ export class Composer extends Component {
 		replaceCaret(el);
 	}
 
-	render = ({ pre, post, value, placeholder, onChange, onSubmit, onUpload, className, style }) => (
-		<div className={createClassName(styles, 'composer', { }, [className])} style={style}>
+	render() {
+		const { pre, post, value, placeholder, onChange, onSubmit, onUpload, className, style } = this.props;
+		return (<div className={createClassName(styles, 'composer', { }, [className])} style={style}>
 			{pre}
 			<div
 				ref={this.handleRef}
@@ -193,8 +194,8 @@ export class Composer extends Component {
 				className={createClassName(styles, 'composer__input')}
 			/>
 			{post}
-		</div>
-	)
+		</div>);
+	}
 }
 
 export { ComposerAction } from './ComposerAction';

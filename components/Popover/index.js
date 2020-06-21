@@ -7,19 +7,25 @@ import styles from './styles.scss';
 const PopoverContext = createContext();
 
 
-const PopoverOverlay = ({ children, className, visible, ...props }) => (
-	<div
-		className={createClassName(styles, 'popover__overlay', { visible }, [className])}
-		{...props}
-	>
-		{children}
-	</div>
-);
-
+const PopoverOverlay = (props) => {
+	const { children, className, visible } = props;
+	return (
+		<div
+			className={ createClassName(styles, 'popover__overlay', { visible }, [className]) }
+			{ ...props }
+		>
+			{ children && children }
+		</div>
+	);
+}
 
 export class PopoverContainer extends Component {
 	state = {
 		renderer: null,
+	}
+
+	constructor(props) {
+		super(props);
 	}
 
 	open = (renderer, props, { currentTarget } = {}) => {
@@ -34,11 +40,19 @@ export class PopoverContainer extends Component {
 			triggerBounds = normalizeDOMRect(currentTarget.getBoundingClientRect());
 		}
 
-		this.setState({ renderer, ...props, overlayBounds, triggerBounds });
+		this.setState({
+			renderer, ...props,
+			overlayBounds,
+			triggerBounds
+		});
 	}
 
 	dismiss = () => {
-		this.setState({ renderer: null, overlayBounds: null, triggerBounds: null });
+		this.setState({
+			renderer: null,
+			overlayBounds: null,
+			triggerBounds: null
+		});
 	}
 
 	handleOverlayGesture = ({ currentTarget, target }) => {
@@ -71,27 +85,37 @@ export class PopoverContainer extends Component {
 		window.removeEventListener('keydown', this.handleKeyDown, false);
 	}
 
-	render = ({ children }, { renderer, overlayProps, overlayBounds, triggerBounds }) => (
-		<PopoverContext.Provider value={{ open: this.open }}>
-			<div className={createClassName(styles, 'popover__container')}>
-				{children}
-				<PopoverOverlay
-					ref={this.handleOverlayRef}
-					onMouseDown={this.handleOverlayGesture}
-					onTouchStart={this.handleOverlayGesture}
-					visible={!!renderer}
-					{...overlayProps}
-				>
-					{renderer ? renderer({ dismiss: this.dismiss, overlayBounds, triggerBounds }) : null}
-				</PopoverOverlay>
-			</div>
-		</PopoverContext.Provider>
-	)
+	render() {
+		const { children, renderer, overlayProps, overlayBounds, triggerBounds } = this.props;
+		return (
+			<PopoverContext.Provider value={ { open: this.open } }>
+				<div className={ createClassName(styles, 'popover__container') }>
+					{ children }
+					<PopoverOverlay
+						ref={ this.handleOverlayRef }
+						onMouseDown={ this.handleOverlayGesture }
+						onTouchStart={ this.handleOverlayGesture }
+						visible={ !!renderer }
+						{ ...overlayProps }
+					>
+						{ renderer ? renderer({
+							dismiss: this.dismiss,
+							overlayBounds,
+							triggerBounds
+						}) : null }
+					</PopoverOverlay>
+				</div>
+			</PopoverContext.Provider>
+		);
+	}
 }
 
 
-export const PopoverTrigger = ({ children, ...props }) => (
-	<PopoverContext.Consumer>
-		{({ open }) => children[0]({ pop: open.bind(null, children[1], props) })}
-	</PopoverContext.Consumer>
-);
+export const PopoverTrigger = (props) => {
+	const { children } = props;
+	return (
+		<PopoverContext.Consumer>
+			{ ({ open }) => children && children[0]({ pop: open.bind(null, children[1], props) }) }
+		</PopoverContext.Consumer>
+	);
+};

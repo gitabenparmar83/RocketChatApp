@@ -59,7 +59,7 @@ module.exports = (config/* , env */) => {
 	config.module.rules.push({
 		test: /\.svg$/,
 		use: [
-			'desvg-loader/preact',
+			'desvg-loader/react',
 			'svg-loader',
 			'image-webpack-loader',
 		],
