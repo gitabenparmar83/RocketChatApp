@@ -67,39 +67,49 @@ class PopoverMenuWrapper extends Component {
 
 	componentDidMount() {
 		const { triggerBounds, overlayBounds } = this.props;
-		const menuBounds = normalizeDOMRect(this.menuRef.base.getBoundingClientRect());
+		let menuBounds;
+		let menuWidth;
+		let menuHeight;
+		if (this.menuRef) {
+			menuBounds = normalizeDOMRect(this.menuRef.base.getBoundingClientRect());
+		}
+		if (menuBounds) {
+			menuWidth = menuBounds.right - menuBounds.left;
+			menuHeight = menuBounds.bottom - menuBounds.top;
+		}
+		if (overlayBounds) {
+			const rightSpace = overlayBounds.right - triggerBounds.left;
+			const bottomSpace = overlayBounds.bottom - triggerBounds.bottom;
 
-		const menuWidth = menuBounds.right - menuBounds.left;
-		const menuHeight = menuBounds.bottom - menuBounds.top;
+			const left = menuWidth < rightSpace ? triggerBounds.left - overlayBounds.left : null;
+			const right = menuWidth < rightSpace ? null : overlayBounds.right - triggerBounds.right;
 
-		const rightSpace = overlayBounds.right - triggerBounds.left;
-		const bottomSpace = overlayBounds.bottom - triggerBounds.bottom;
+			const top = menuHeight < bottomSpace ? triggerBounds.bottom : null;
+			const bottom = menuHeight < bottomSpace ? null : overlayBounds.bottom - triggerBounds.top;
 
-		const left = menuWidth < rightSpace ? triggerBounds.left - overlayBounds.left : null;
-		const right = menuWidth < rightSpace ? null : overlayBounds.right - triggerBounds.right;
+			const placement = `${ menuWidth < rightSpace ? 'right' : 'left' }-${ menuHeight < bottomSpace ? 'bottom' : 'top' }`;
+			// eslint-disable-next-line react/no-did-mount-set-state
+			this.setState({
+				position: { left, right, top, bottom },
+				placement,
+			});
+		}
 
-		const top = menuHeight < bottomSpace ? triggerBounds.bottom : null;
-		const bottom = menuHeight < bottomSpace ? null : overlayBounds.bottom - triggerBounds.top;
-
-		const placement = `${ menuWidth < rightSpace ? 'right' : 'left' }-${ menuHeight < bottomSpace ? 'bottom' : 'top' }`;
-
-		// eslint-disable-next-line react/no-did-mount-set-state
-		this.setState({
-			position: { left, right, top, bottom },
-			placement,
-		});
 	}
 
-	render = ({ children }) => (
-		<Menu
-			ref={this.handleRef}
-			style={{ position: 'absolute', ...this.state.position }}
-			placement={this.state.placement}
-			onClickCapture={this.handleClick}
-		>
-			{children}
-		</Menu>
-	)
+	render() {
+		const { children } = this.props;
+		return (
+			<Menu
+				ref={ this.handleRef }
+				style={ { position: 'absolute', ...this.state.position } }
+				placement={ this.state.placement }
+				onClickCapture={ this.handleClick }
+			>
+				{ children }
+			</Menu>
+		);
+	}
 }
 
 
@@ -122,7 +132,7 @@ export const PopoverMenu = (props) => {
 				</PopoverMenuWrapper>
 			) }
 		</PopoverTrigger>
-	)
+	);
 };
 
 

@@ -7,14 +7,17 @@ import styles from './styles.scss';
 const PopoverContext = createContext();
 
 
-const PopoverOverlay = ({ children, className, visible, ...props }) => (
-	<div
-		className={createClassName(styles, 'popover__overlay', { visible }, [className])}
-		{...props}
-	>
-		{children}
-	</div>
-);
+const PopoverOverlay = (props) => {
+	const { children, className, visible } = props;
+	return (
+		<div
+			className={ createClassName(styles, 'popover__overlay', { visible }, [className]) }
+			{ ...props }
+		>
+			{ children }
+		</div>
+	);
+};
 
 
 export class PopoverContainer extends Component {
@@ -71,8 +74,9 @@ export class PopoverContainer extends Component {
 		window.removeEventListener('keydown', this.handleKeyDown, false);
 	}
 
-	render = () => {
-		const { children, renderer, overlayProps, overlayBounds, triggerBounds }= this.props;
+	render() {
+		const { children } = this.props;
+		const { renderer, overlayProps, overlayBounds, triggerBounds } = this.state;
 		return (
 			<PopoverContext.Provider value={ { open: this.open } }>
 			<div className={ createClassName(styles, 'popover__container') }>
