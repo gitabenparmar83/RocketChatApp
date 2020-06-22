@@ -7,20 +7,26 @@ import styles from './styles.scss';
 const PopoverContext = createContext();
 
 
-const PopoverOverlay = (props) => {
+const PopoverOverlay = React.forwardRef((props, ref) => {
 	const { children, className, visible } = props;
 	return (
 		<div
+			ref={ref}
 			className={ createClassName(styles, 'popover__overlay', { visible }, [className]) }
 			{ ...props }
 		>
 			{ children }
 		</div>
 	);
-};
+});
 
 
 export class PopoverContainer extends Component {
+	constructor(props) {
+		super(props);
+		this.overlayRef = null;
+	}
+
 	state = {
 		renderer: null,
 	}
@@ -30,7 +36,7 @@ export class PopoverContainer extends Component {
 		let triggerBounds;
 
 		if (this.overlayRef) {
-			overlayBounds = normalizeDOMRect(this.overlayRef.base.getBoundingClientRect());
+			overlayBounds = normalizeDOMRect(this.overlayRef.getBoundingClientRect());
 		}
 
 		if (currentTarget) {
@@ -79,23 +85,23 @@ export class PopoverContainer extends Component {
 		const { renderer, overlayProps, overlayBounds, triggerBounds } = this.state;
 		return (
 			<PopoverContext.Provider value={ { open: this.open } }>
-			<div className={ createClassName(styles, 'popover__container') }>
-				{ children }
-				<PopoverOverlay
-					ref={ this.handleOverlayRef }
-					onMouseDown={ this.handleOverlayGesture }
-					onTouchStart={ this.handleOverlayGesture }
-					visible={ !!renderer }
-					{ ...overlayProps }
-				>
-					{ renderer ? renderer({
-						dismiss: this.dismiss,
-						overlayBounds,
-						triggerBounds
-					}) : null }
-				</PopoverOverlay>
-			</div>
-		</PopoverContext.Provider>
+				<div className={ createClassName(styles, 'popover__container') }>
+					{ children }
+					<PopoverOverlay
+						ref={this.handleOverlayRef}
+						onMouseDown={ this.handleOverlayGesture }
+						onTouchStart={ this.handleOverlayGesture }
+						visible={ !!renderer }
+						{ ...overlayProps }
+					>
+						{ renderer ? renderer({
+							dismiss: this.dismiss,
+							overlayBounds,
+							triggerBounds,
+						}) : null }
+					</PopoverOverlay>
+				</div>
+			</PopoverContext.Provider>
 		);
 	}
 }
